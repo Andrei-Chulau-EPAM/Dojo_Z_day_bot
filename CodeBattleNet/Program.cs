@@ -70,7 +70,7 @@ namespace CodeBattleNet
                         logger.Debug("WayOut mode used");
                         //preAct = wayOutProgram.TryPreAct(freeRegion);
                         movement = moveProgram.GetMovementToClosestConstruction();
-                        postAct = wayOutProgram.TryPostAct(movement.ToDirection(client), freeRegion);
+                        postAct = true; //wayOutProgram.TryPostAct(movement.ToDirection(client), freeRegion);
                     }
                     else
                     {
