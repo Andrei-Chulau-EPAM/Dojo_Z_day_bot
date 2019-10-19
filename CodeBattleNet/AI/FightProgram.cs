@@ -49,6 +49,11 @@ namespace CodeBattleNet.AI
 
             testPosition = iterator(testPosition);
 
+            if (_client.IsEnemyAt(testPosition))
+            {
+                return true;
+            }
+
             return IsEnemiesOnLine(testPosition, requestedDirection, enemiesInArea);
         }
 
