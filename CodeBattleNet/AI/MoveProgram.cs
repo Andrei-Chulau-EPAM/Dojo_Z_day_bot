@@ -201,8 +201,14 @@ namespace CodeBattleNet.AI
         public Movement GetSafeMovementDirection(HashSet<Direction> dangerDirections)
         {
             _moveType = MoveType.SafeMovement;
+            var player = _client.GetPlayerTank();
 
-            var possibleDirections = MapUtility.IterationMap.Select(x => x.Key).ToArray();
+            var possibleDirections = MapUtility.IterationMap
+                .ToDictionary(x=>x.Key, x=>x.Value(player))
+                .Where(x=>!_client.IsObstacleAt(x.Value) && !_client.IsOutOf(x.Value))
+                .Select(x => x.Key)
+                .ToArray();
+
             var safeDirections = possibleDirections.Where(x => !dangerDirections.Contains(x)).ToArray();
 
             switch (safeDirections.Length)
