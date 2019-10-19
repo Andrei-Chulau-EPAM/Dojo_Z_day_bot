@@ -72,7 +72,12 @@ namespace CodeBattleNet.AI
         public Movement GetMovementToClosestEnemy()
         {
             var player = _client.GetPlayerTank();
-            var closestEnemyPosition = PlayerUtility.GetClosestEnemyPosition(_client, out var movementRoad);
+            var closestEnemyPosition = PlayerUtility.GetClosestEnemyPosition(_client, out var movementRoad, 20);
+
+            if (closestEnemyPosition.IsNegativePoint())
+            {
+                return GetLongTermRandomDirection();
+            }
 
             if (_movementRoad?.Count > 0 && _movementTarget != null &&
                 _client.IsEnemyAt(_movementTarget) &&

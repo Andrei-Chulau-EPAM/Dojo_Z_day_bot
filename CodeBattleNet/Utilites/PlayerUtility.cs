@@ -70,7 +70,7 @@ namespace CodeBattleNet.Utilites
             return GetClosestPosition(client, position, client.IsConstructionAt, checkedPoints, movements);
         }
 
-        public static Point GetClosestEnemyPosition(BattleNetClient client, out List<Movement> movements)
+        public static Point GetClosestEnemyPosition(BattleNetClient client, out List<Movement> movements, int maxTurnsToCalculate)
         {
             var enemyPosition = PointUtility.CreateNegativePoint();
             movements = new List<Movement>();
@@ -79,7 +79,7 @@ namespace CodeBattleNet.Utilites
             List<List<Movement>> movementsInProcess = new List<List<Movement>>(new []{new List<Movement>(new []{Movement.Stop})});
             List<Point> currentRangePoints = new List<Point>(new[] {client.GetPlayerTank()});
 
-            while (enemyPosition.IsNegativePoint())
+            for (int count = 0; count < maxTurnsToCalculate && enemyPosition.IsNegativePoint(); count++)
             {
                 enemyPosition = GetClosestEnemyPosition(client,
                     checkedPoints, movementsInProcess,
@@ -87,9 +87,16 @@ namespace CodeBattleNet.Utilites
                     out movements);
             }
 
-            movements.RemoveAt(0);
-
-            return enemyPosition;
+            if (movements.Any())
+            {
+                movements.RemoveAt(0);
+                return enemyPosition;
+            }
+            else
+            {
+                return PointUtility.CreateNegativePoint();
+            }
+            
         }
 
         public static List<Movement> GetRoad(BattleNetClient client, Point targetPoint)
