@@ -37,6 +37,16 @@ namespace CodeBattleNet.AI
             return IsConstructionsOnLine(testPosition, playerDirection, area);
         }
 
+        public bool TryPostAct(Direction requestedDirection, Region area)
+        {
+            var testPosition = new Point(_client.PlayerX, _client.PlayerY);
+            var iterator = MapUtility.IterationMap[requestedDirection];
+
+            testPosition = iterator(testPosition);
+
+            return IsConstructionsOnLine(testPosition, requestedDirection, area);
+        }
+
         private bool IsConstructionsOnLine(Point zeroPosition, Direction requestedDirection, Region area)
         {
             var testPosition = new Point(zeroPosition.X, zeroPosition.Y);

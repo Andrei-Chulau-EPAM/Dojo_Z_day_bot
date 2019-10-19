@@ -61,15 +61,16 @@ namespace CodeBattleNet
                     else if (fightProgram.CanBeUsed(6))
                     {
                         logger.Debug("Fight mode used");
-                        preAct = fightProgram.TryPreAct(enemiesInArea);
+                        //preAct = fightProgram.TryPreAct(enemiesInArea);
                         movement = moveProgram.GetMovementToClosestEnemy();
                         postAct = fightProgram.TryPostAct(movement.ToDirection(client), enemiesInArea);
                     }
                     else if (wayOutProgram.CanBeUsed(6))
                     {
                         logger.Debug("WayOut mode used");
-                        preAct = wayOutProgram.TryPreAct(freeRegion);
+                        //preAct = wayOutProgram.TryPreAct(freeRegion);
                         movement = moveProgram.GetMovementToClosestConstruction();
+                        postAct = wayOutProgram.TryPostAct(movement.ToDirection(client), freeRegion);
                     }
                     else
                     {
