@@ -158,6 +158,11 @@ namespace CodeBattleNet.AI
 
             _moveType = MoveType.MovementToClosestConstruction;
 
+            if ((_movementRoad?.Count ?? 0) == 0)
+            {
+                return GetRandomMovement();
+            }
+
             var movement = _movementRoad.First();
             _movementRoad.RemoveAt(0);
             return movement;
